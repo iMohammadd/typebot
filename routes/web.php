@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     //return view('welcome');
-    echo \App\Helper\Translate::trans('ب') . "<hr>";
+    echo \App\Helper\Translate::trans('و') . "<hr>";
     $keys = \App\Helper\Translate::getKey();
     foreach ($keys as $k => $v) {
         echo $k . ': ' . \App\Helper\Translate::convert($k) . " => " . $v . ': '. \App\Helper\Translate::convert($v) . "<br>";
