@@ -103,7 +103,16 @@ class BotController extends Controller
         $converted = [];
         $resp = [];
         for ($i=0; $i<count($array); $i++) {
-            $converted[] = \App\Helper\Translate::trans($array[$i]);
+            //$converted[] = \App\Helper\Translate::trans($array[$i]);
+            foreach ($keys as $k => $v) {
+                if (Translate::trans($array[$i]) == $k) {
+                    $converted[] = Translate::trans($array[$i]);
+                } elseif (Translate::trans($array[$i]) == $v) {
+                    $converted[] = Translate::trans($array[$i]);
+                } else {
+                    $converted[] = $array[$i];
+                }
+            }
         }
 
         for ($i = 0; $i < count($converted); $i++) {

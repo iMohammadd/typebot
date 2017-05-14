@@ -22,5 +22,6 @@ Route::get('/', function () {
 });
 
 Route::get('query', function (\Illuminate\Http\Request $request) {
-
+    #$resp = new \App\Http\Controllers\BotController();
+    #return $resp->conv($request->input('query'));
 });
