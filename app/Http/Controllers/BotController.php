@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Translate;
 use Illuminate\Foundation\Inspiring;
 use Telegram\Bot\Api;
 
@@ -40,7 +41,7 @@ class BotController extends Controller
     {
         // Edit this with your webhook URL.
         // You can also use: route('bot-webhook')
-        $url = "https://domain.com/bot/webhook";
+        $url = "https://e2429196.ngrok.io/bot/webhook";
         $response = $this->telegram->setWebhook()
             ->url($url)
             ->getResult();
@@ -87,13 +88,38 @@ class BotController extends Controller
         // - Tell me an inspirational quote
         // - inspire me
         // - Hey bot, tell me an inspiring quote please?
-        if(str_contains($message->text, ['inspire', 'inspirational', 'inspiring'])) {
             $this->telegram->sendMessage()
                 ->chatId($message->chat->id)
-                ->text(Inspiring::quote())
+                ->text($this->conv($message->text))
                 ->getResult();
-        }
 
         return 'Ok';
+    }
+
+    public function conv($query)
+    {
+        $keys = \App\Helper\Translate::getKey();
+        $array = \App\Helper\Translate::toArray($query);
+        $converted = [];
+        $resp = [];
+        for ($i=0; $i<count($array); $i++) {
+            $converted[] = \App\Helper\Translate::trans($array[$i]);
+        }
+
+        for ($i = 0; $i < count($converted); $i++) {
+            foreach ($keys as $k => $v) {
+                //echo $k . " " . $v . "<br>";
+                if ($converted[$i] == $k)
+                    $resp[] = $v;
+                if ($converted[$i] == $v)
+                    $resp[] = $k;
+            }
+        }
+
+        for ($i = 0; $i < count($resp); $i++)
+            $resp[$i]   =   \App\Helper\Translate::convert($resp[$i]);
+
+        #$array[]    =   $query[$i];
+        return implode($resp);
     }
 }

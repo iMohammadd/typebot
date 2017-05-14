@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{\App\Helper\Translate::convert(1589)}}
                 </div>
 
                 <div class="links">
