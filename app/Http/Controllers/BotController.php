@@ -41,7 +41,7 @@ class BotController extends Controller
     {
         // Edit this with your webhook URL.
         // You can also use: route('bot-webhook')
-        $url = "https://e2429196.ngrok.io/bot/webhook";
+        $url = route('bot-webhook');
         $response = $this->telegram->setWebhook()
             ->url($url)
             ->getResult();
