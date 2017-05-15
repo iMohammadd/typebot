@@ -10,13 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
+Route::get('/', 'HomeController@index');
+Route::post('/', 'HomeController@index');
+Route::get('/test', function () {
     //return view('welcome');
     echo \App\Helper\Translate::trans('و') . "<hr>";
     $keys = \App\Helper\Translate::getKey();
     foreach ($keys as $k => $v) {
-        echo $k . ': ' . \App\Helper\Translate::convert($k) . " => " . $v . ': '. \App\Helper\Translate::convert($v) . "<br>";
+        echo '\'' . \App\Helper\Translate::convert($k) . "' => " . '\''. \App\Helper\Translate::convert($v) . "',<br>";
     }
 
 });
@@ -25,3 +26,6 @@ Route::get('query', function (\Illuminate\Http\Request $request) {
     #$resp = new \App\Http\Controllers\BotController();
     #return $resp->conv($request->input('query'));
 });
+
+
+Route::get('/pages', 'HomeController@index');
