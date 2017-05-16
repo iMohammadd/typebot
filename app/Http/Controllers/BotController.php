@@ -90,45 +90,9 @@ class BotController extends Controller
         // - Hey bot, tell me an inspiring quote please?
             $this->telegram->sendMessage()
                 ->chatId($message->chat->id)
-                ->text($this->conv($message->text))
+                ->text(Translate::translate($message->text))
                 ->getResult();
 
         return 'Ok';
-    }
-
-    public function conv($query)
-    {
-        $keys = \App\Helper\Translate::getKey();
-        $array = \App\Helper\Translate::toArray($query);
-        $converted = [];
-        $resp = [];
-        for ($i=0; $i<count($array); $i++) {
-            //$converted[] = \App\Helper\Translate::trans($array[$i]);
-            foreach ($keys as $k => $v) {
-                if (Translate::trans($array[$i]) == $k) {
-                    $converted[] = Translate::trans($array[$i]);
-                } elseif (Translate::trans($array[$i]) == $v) {
-                    $converted[] = Translate::trans($array[$i]);
-                } else {
-                    $converted[] = $array[$i];
-                }
-            }
-        }
-
-        for ($i = 0; $i < count($converted); $i++) {
-            foreach ($keys as $k => $v) {
-                //echo $k . " " . $v . "<br>";
-                if ($converted[$i] == $k)
-                    $resp[] = $v;
-                if ($converted[$i] == $v)
-                    $resp[] = $k;
-            }
-        }
-
-        for ($i = 0; $i < count($resp); $i++)
-            $resp[$i]   =   \App\Helper\Translate::convert($resp[$i]);
-
-        #$array[]    =   $query[$i];
-        return implode($resp);
     }
 }

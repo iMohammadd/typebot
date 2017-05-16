@@ -7,7 +7,6 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        {{json_encode(\App\Helper\Translate::getPlainKey())}}
                         <form method="post">
                             {{csrf_field()}}
                             <div class="form-group">

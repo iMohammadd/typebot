@@ -128,17 +128,17 @@ class Translate {
     ];
 
 
-    public static function getKey()
+    private static function getKey()
     {
         return self::$keys;
     }
 
-    public static function getPlainKey()
+    private static function getPlainKey()
     {
         return self::$plain_keys;
     }
 
-    public static function trans($char)
+    private static function trans($char)
     {
         $k = mb_convert_encoding($char, 'UCS-2LE', 'UTF-8');
         $k1 = ord(substr($k, 0, 1));
@@ -146,12 +146,12 @@ class Translate {
         return $k2 * 256 + $k1;
     }
 
-    public static function convert($int)
+    private static function convert($int)
     {
         return mb_convert_encoding(pack('n', $int), 'UTF-8', 'UTF-16BE');
     }
 
-    public static function toArray($str, $l = 0)
+    private static function toArray($str, $l = 0)
     {
         if ($l > 0) {
             $ret = array();
@@ -162,6 +162,28 @@ class Translate {
             return $ret;
         }
         return preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+    public static function translate($query)
+    {
+        $keys = self::getPlainKey();
+        $array = self::toArray($query);
+        $resp = [];
+        //return $array;
+        for ($i=0; $i<count($array); $i++) {
+            $resp[$i] = $array[$i];
+            //$converted[] = \App\Helper\Translate::trans($array[$i]);
+            foreach ($keys as $k => $v) {
+                if ($array[$i] == $k) {
+                    $resp[$i] = $v;
+                    break;
+                } elseif ($array[$i] == $v) {
+                    $resp[$i] = $k;
+                    break;
+                }
+            }
+        }
+        return implode($resp);
     }
 
 
